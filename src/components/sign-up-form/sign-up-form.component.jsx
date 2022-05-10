@@ -96,9 +96,7 @@ const SignUpForm = () => {
           name="cPassword"
           value={cPassword}
         />
-        <Button buttonType="google" type="submit" onClick={onSubmitHandler}>
-          Sign Up
-        </Button>
+        <Button type="submit">Sign Up</Button>
       </form>
     </div>
   );
