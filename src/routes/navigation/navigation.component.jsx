@@ -1,15 +1,19 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { ReactComponent as WSLogo } from "../../assets/crown.svg";
 import "./navigation.styles.scss";
 import { useState, useEffect } from "react";
 import ToggleButton from "../../components/toggle-button/toggle-button.component";
+import { UserContext } from "../../contexts/user.context";
+import { signOutUser } from "../../utility/firebase/firebase.utils";
 
 const NavigationBar = () => {
   const [language, setLanguage] = useState("ကညီ");
   const [shopLink, setShopLink] = useState("SHOP");
   const [aboutUsLink, setAboutUsLink] = useState("ABOUT US");
   const [signInLink, setSignInLink] = useState("SIGN IN");
+
+  const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
     if (language !== "EN") {
@@ -41,9 +45,15 @@ const NavigationBar = () => {
           <Link className="nav-link" to="/about-us">
             {aboutUsLink}
           </Link>
-          <Link className="nav-link" to="/sign-in">
-            {signInLink}
-          </Link>
+          {currentUser ? (
+            <span className="nav-link" onClick={signOutUser}>
+              SIGN OUT
+            </span>
+          ) : (
+            <Link className="nav-link" to="/auth">
+              {signInLink}
+            </Link>
+          )}
           <ToggleButton
             onClickHandler={onLanguageChange}
             text={language}
