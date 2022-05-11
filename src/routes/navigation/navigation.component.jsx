@@ -7,6 +7,10 @@ import ToggleButton from "../../components/toggle-button/toggle-button.component
 import { UserContext } from "../../contexts/user.context";
 import { signOutUser } from "../../utility/firebase/firebase.utils";
 
+import CartIcon from "../../components/cart-icon/cart-icon.component";
+import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
+import { CartContext } from "../../contexts/cart.context";
+
 const NavigationBar = () => {
   const [language, setLanguage] = useState("ကညီ");
   const [shopLink, setShopLink] = useState("SHOP");
@@ -14,6 +18,7 @@ const NavigationBar = () => {
   const [signInLink, setSignInLink] = useState("SIGN IN");
 
   const { currentUser } = useContext(UserContext);
+  const { isCartOpen } = useContext(CartContext);
 
   useEffect(() => {
     if (language !== "EN") {
@@ -54,12 +59,14 @@ const NavigationBar = () => {
               {signInLink}
             </Link>
           )}
+          <CartIcon />
           <ToggleButton
             onClickHandler={onLanguageChange}
             text={language}
             className="toggle-button"
           />
         </div>
+        {isCartOpen && <CartDropdown />}
       </div>
       <Outlet />
     </Fragment>
