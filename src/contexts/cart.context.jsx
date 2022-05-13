@@ -10,10 +10,11 @@ export const CartContext = createContext({
   totalValue: 0,
 });
 
+//Add a product into the cart
+//if the item is already in the cart, increase its quantity by 1
+//if the item is not in the cart already, add one into the cart
 const addAnItemToCart = (cartItems, productToAdd) => {
-  const itemFound = cartItems.find((item) =>
-    item.id === productToAdd.id ? true : false
-  );
+  const itemFound = cartItems.find((item) => item.id === productToAdd.id);
   if (itemFound) {
     return cartItems.map((cartItem) =>
       cartItem.id === productToAdd.id
@@ -23,6 +24,31 @@ const addAnItemToCart = (cartItems, productToAdd) => {
   }
 
   return [...cartItems, { ...productToAdd, quantity: 1 }];
+};
+
+//reduce the quantity of the product by 1
+const removeAnItemFromCart = (cartItems, productToRemove) => {
+  const itemFound = cartItems.find((item) => item.id === productToRemove.id);
+  if (itemFound && itemFound.quantity > 1) {
+    return cartItems.map((cartItem) =>
+      cartItem.id === productToRemove.id
+        ? { ...cartItem, quantity: cartItem.quantity - 1 }
+        : cartItem
+    );
+  }
+  return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
+};
+
+//Remove every single item of the product from the cart
+const clearCart = (cartItems, productToRemove) => {
+  const itemFound = cartItems.find(
+    (cartItem) => cartItem.id === productToRemove.id
+  );
+
+  if (itemFound) {
+    return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id);
+  }
+  return [...cartItems];
 };
 
 export const CartProvider = ({ children }) => {
@@ -51,10 +77,20 @@ export const CartProvider = ({ children }) => {
     setCartItems(addAnItemToCart(cartItems, productToAdd));
   };
 
+  const removeItemFromCart = (productToRemove) => {
+    setCartItems(removeAnItemFromCart(cartItems, productToRemove));
+  };
+
+  const clearItemsFromCart = (productToRemove) => {
+    setCartItems(clearCart(cartItems, productToRemove));
+  };
+
   const value = {
     isCartOpen,
     setIsCartOpen,
     addItemToCart,
+    removeItemFromCart,
+    clearItemsFromCart,
     cartItems,
     cartCount,
     totalValue,

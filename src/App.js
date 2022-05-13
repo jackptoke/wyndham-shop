@@ -4,6 +4,7 @@ import NavigationBar from "./routes/navigation/navigation.component";
 import Authentication from "./routes/authentication/authentication.component";
 import AboutUs from "./routes/about/about.component";
 import Shop from "./routes/shop/shop.component";
+import Checkout from "./routes/checkout/checkout.component";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="shop" element={<Shop />} />
         <Route path="about-us" element={<AboutUs />} />
         <Route path="auth" element={<Authentication />} />
+        <Route path="checkout" element={<Checkout />} />
       </Route>
     </Routes>
   );

@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
 import {
-  auth,
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utility/firebase/firebase.utils";
