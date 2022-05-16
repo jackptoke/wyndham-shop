@@ -4,7 +4,11 @@ import CartItem from "../cart-item/cart-item.component";
 import { CartContext } from "../../contexts/cart.context";
 import { useNavigate } from "react-router-dom";
 
-import "./cart-dropdown.styles.scss";
+import {
+  CartDropdownContainer,
+  CartItems,
+  EmptyMessage,
+} from "./cart-dropdown.styles";
 
 const CartDropdown = () => {
   const { cartItems, totalValue, isCartOpen, setIsCartOpen } =
@@ -16,15 +20,17 @@ const CartDropdown = () => {
     navigateToCheckout("/checkout");
   };
   return (
-    <div className="cart-dropdown-container">
-      <div className="cart-items">
-        {cartItems.map((item) => (
-          <CartItem key={item.id} cartItem={item} />
-        ))}
-        <h2>Total: ${totalValue}</h2>
-      </div>
+    <CartDropdownContainer>
+      <CartItems>
+        {cartItems.length ? (
+          cartItems.map((item) => <CartItem key={item.id} cartItem={item} />)
+        ) : (
+          <EmptyMessage>Empty Cart</EmptyMessage>
+        )}
+        {totalValue > 0 ? <h2>Total: ${totalValue}</h2> : ""}
+      </CartItems>
       <Button onClick={onClick}>Checkout</Button>
-    </div>
+    </CartDropdownContainer>
   );
 };
 

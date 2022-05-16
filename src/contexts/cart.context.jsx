@@ -57,6 +57,7 @@ export const CartProvider = ({ children }) => {
   const [cartCount, setCartCount] = useState(0);
   const [totalValue, setTotalValue] = useState(0);
 
+  //Count the total number of items in the cart
   useEffect(() => {
     const newCartCount = cartItems.reduce(
       (total, item) => total + item.quantity,
@@ -65,6 +66,7 @@ export const CartProvider = ({ children }) => {
     setCartCount(newCartCount);
   }, [cartItems]);
 
+  //Calculate the total value of the cart
   useEffect(() => {
     const newTotalValue = cartItems.reduce(
       (total, item) => total + item.quantity * item.price,

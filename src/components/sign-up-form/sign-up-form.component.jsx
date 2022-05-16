@@ -5,11 +5,12 @@ import {
 } from "../../utility/firebase/firebase.utils";
 
 import FormInput from "../form-input/form-input.component";
-import "./sign-up-form.styles.scss";
 
 import { UserContext } from "../../contexts/user.context";
 
 import Button from "../button/button.component";
+
+import { SignUpContainer, SignUpH2 } from "./sign-up-form.styles";
 
 const defaultFormFields = {
   displayName: "",
@@ -30,8 +31,6 @@ const SignUpForm = () => {
     setFormFields({ ...formFields, [name]: value });
   };
 
-  console.log(formFields);
-
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
@@ -49,7 +48,7 @@ const SignUpForm = () => {
         );
 
         user.displayName = displayName;
-        const userDocRef = await createUserDocumentFromAuth(user, {
+        await createUserDocumentFromAuth(user, {
           displayName,
         });
 
@@ -57,7 +56,7 @@ const SignUpForm = () => {
 
         resetFormFields();
       } catch (err) {
-        if (err.code == "auth/email-already-in-use") {
+        if (err.code === "auth/email-already-in-use") {
           alert("Cannot create user, email already in use");
         } else console.log("Error creating user. ", err);
       }
@@ -65,8 +64,8 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="sign-up-container">
-      <h2>Don't have an account?</h2>
+    <SignUpContainer>
+      <SignUpH2>Don't have an account?</SignUpH2>
       <span>Sign up with your email and password</span>
       <form onSubmit={onSubmitHandler}>
         <FormInput
@@ -106,7 +105,7 @@ const SignUpForm = () => {
         />
         <Button type="submit">Sign Up</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 

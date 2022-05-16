@@ -1,10 +1,20 @@
 import { Fragment, useContext } from "react";
 import { CartContext } from "../../contexts/cart.context";
 
-import "./checkout-item.styles.scss";
+import {
+  CheckoutItemContainer,
+  CheckoutImageContainer,
+  CheckoutImage,
+  CheckoutProductName,
+  CheckoutProductQuantity,
+  CheckoutProductQuantityValue,
+  CheckoutProductPrice,
+  CheckoutQuantityArrow,
+  CheckoutRemoveButton,
+} from "./checkout-item.styles";
 
 const CheckoutItem = ({ cartItem }) => {
-  const { name, id, imageUrl, quantity, price } = cartItem;
+  const { name, imageUrl, quantity, price } = cartItem;
 
   const { addItemToCart, removeItemFromCart, clearItemsFromCart } =
     useContext(CartContext);
@@ -23,25 +33,25 @@ const CheckoutItem = ({ cartItem }) => {
 
   return (
     <Fragment>
-      <div className="checkout-item-container">
-        <div className="image-container">
-          <img src={imageUrl} width="100px" alt={name} />
-        </div>
-        <span className="name">{name}</span>
-        <span className="quantity">
-          <div className="arrow" onClick={decrement}>
+      <CheckoutItemContainer>
+        <CheckoutImageContainer>
+          <CheckoutImage src={imageUrl} width="100px" alt={name} />
+        </CheckoutImageContainer>
+        <CheckoutProductName>{name}</CheckoutProductName>
+        <CheckoutProductQuantity>
+          <CheckoutQuantityArrow onClick={decrement}>
             &#10096;
-          </div>
-          <span className="value">{quantity}</span>
+          </CheckoutQuantityArrow>
+          <CheckoutProductQuantityValue>
+            {quantity}
+          </CheckoutProductQuantityValue>
           <div className="arrow" onClick={increment}>
             &#10097;
           </div>
-        </span>
-        <span className="price">${price}</span>
-        <div className="remove-button" onClick={remove}>
-          &#10060;
-        </div>
-      </div>
+        </CheckoutProductQuantity>
+        <CheckoutProductPrice>${price}</CheckoutProductPrice>
+        <CheckoutRemoveButton onClick={remove}>&#10060;</CheckoutRemoveButton>
+      </CheckoutItemContainer>
     </Fragment>
   );
 };
