@@ -7,13 +7,16 @@ import { ProductsContainer } from "../categories-preview/categories-preview.styl
 const ShopCategory = () => {
   let { category } = useParams();
   const { categoriesMap } = useContext(CategoriesContext);
+  console.log("CATEGORY: ", category);
+  console.log("Category Map: ", categoriesMap);
   return (
     <Fragment>
       <h2>{category.toUpperCase()}</h2>
       <ProductsContainer>
-        {categoriesMap[category].map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {categoriesMap[category] &&
+          categoriesMap[category].map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
       </ProductsContainer>
     </Fragment>
   );
