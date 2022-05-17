@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -22,7 +23,7 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, cPassword } = formFields;
-
+  const navigate = useNavigate();
   const { setCurrentUser } = useContext(UserContext);
 
   const handleChange = (event) => {
@@ -53,6 +54,7 @@ const SignUpForm = () => {
         });
 
         setCurrentUser(user);
+        user.accessToken && navigate("/");
 
         resetFormFields();
       } catch (err) {

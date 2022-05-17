@@ -1,6 +1,7 @@
 import { /*useContext, */ useState } from "react";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 // import { UserContext } from "../../contexts/user.context";
+import { useNavigate } from "react-router-dom";
 
 import FormInput from "../form-input/form-input.component";
 import {
@@ -22,7 +23,7 @@ const defaultSignInFormFields = {
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultSignInFormFields);
   const { email, password } = formFields;
-
+  const navigate = useNavigate();
   // const { setCurrentUser } = useContext(UserContext);
 
   const handleChange = (event) => {
@@ -36,7 +37,9 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
+    const { user } = await signInWithGooglePopup();
+
+    user.accessToken && navigate("/");
   };
 
   const onSubmitHandler = async (event) => {
@@ -44,7 +47,8 @@ const SignInForm = () => {
     try {
       const { user } = await signInWithUsersEmailAndPassword(email, password);
       // setCurrentUser(user);
-      console.log(user);
+
+      user.accessToken && navigate("/");
       resetFormFields();
     } catch (err) {
       switch (err.code) {
