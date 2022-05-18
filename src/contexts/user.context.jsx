@@ -1,4 +1,5 @@
-import { createContext, useState, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
+import { createAction } from "../utility/reducers/reducer.utils";
 
 import {
   onAuthStateChangedListener,
@@ -31,7 +32,7 @@ export const UserProvider = ({ children }) => {
   console.log("Current User (UserProvider)", currentUser);
 
   const setCurrentUser = (user) => {
-    dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user });
+    dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
   };
   // const [currentUser, setCurrentUser] = useState(null);
   const value = { currentUser, setCurrentUser };
