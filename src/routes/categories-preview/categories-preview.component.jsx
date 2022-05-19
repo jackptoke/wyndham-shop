@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
-
 import ProductCard from "../../components/product-card/product-card.component";
 import { ProductsContainer, NavLink } from "./categories-preview.styles";
 
