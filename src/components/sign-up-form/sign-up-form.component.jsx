@@ -1,5 +1,8 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+// import { setCurrentUser } from "../../store/user/user.action";
+
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -7,7 +10,7 @@ import {
 
 import FormInput from "../form-input/form-input.component";
 
-import { UserContext } from "../../contexts/user.context";
+// import { UserContext } from "../../contexts/__user.context";
 
 import Button from "../button/button.component";
 
@@ -24,7 +27,7 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, cPassword } = formFields;
   const navigate = useNavigate();
-  const { setCurrentUser } = useContext(UserContext);
+  // const { setCurrentUser } = useContext(UserContext);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -53,7 +56,7 @@ const SignUpForm = () => {
           displayName,
         });
 
-        setCurrentUser(user);
+        // dispatch(setCurrentUser(user));
         user.accessToken && navigate("/");
 
         resetFormFields();
