@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import ProductCard from "../../components/product-card/product-card.component";
 import { ProductsContainer, NavLink } from "./categories-preview.styles";
 
-import { selectCategories } from "../../store/categories/categories.selector";
+import { selectCategoriesMap } from "../../store/categories/categories.selector";
 
 const CategoriesPreview = () => {
-  const categoriesMap = useSelector(selectCategories);
+  const categoriesMap = useSelector(selectCategoriesMap);
   console.log("Categories Preview - CategoriesMap: ", categoriesMap);
   return (
     <Fragment>

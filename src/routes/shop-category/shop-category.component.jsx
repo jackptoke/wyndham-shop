@@ -5,11 +5,11 @@ import ProductCard from "../../components/product-card/product-card.component";
 import { useParams } from "react-router-dom";
 import { ProductsContainer } from "../categories-preview/categories-preview.styles";
 
-import { selectCategories } from "../../store/categories/categories.selector";
+import { selectCategoriesMap } from "../../store/categories/categories.selector";
 
 const ShopCategory = () => {
   let { category } = useParams();
-  const categoriesMap = useSelector(selectCategories);
+  const categoriesMap = useSelector(selectCategoriesMap);
   console.log("CATEGORY: ", category);
   console.log("Category Map: ", categoriesMap);
   return (

@@ -1,11 +1,11 @@
 import { Fragment } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   addProductToCart,
   removeProductFromCart,
   clearProductFromCart,
 } from "../../store/cart/cart.action";
-
+import { selectCartItems } from "../../store/cart/cart.selector";
 import {
   CheckoutItemContainer,
   CheckoutImageContainer,
@@ -20,19 +20,19 @@ import {
 
 const CheckoutItem = ({ cartItem }) => {
   const dispatch = useDispatch();
-
+  const cartItems = useSelector(selectCartItems);
   const { name, imageUrl, quantity, price } = cartItem;
 
   const increment = () => {
-    dispatch(addProductToCart(cartItem));
+    dispatch(addProductToCart(cartItems, cartItem));
   };
 
   const decrement = () => {
-    dispatch(removeProductFromCart(cartItem));
+    dispatch(removeProductFromCart(cartItems, cartItem));
   };
 
   const remove = () => {
-    dispatch(clearProductFromCart(cartItem));
+    dispatch(clearProductFromCart(cartItems, cartItem));
   };
 
   return (
