@@ -1,15 +1,32 @@
 import { Fragment, useContext } from "react";
 import { Outlet } from "react-router-dom";
+<<<<<<< Updated upstream
+=======
+import { useSelector, useDispatch } from "react-redux";
+
+>>>>>>> Stashed changes
 import { ReactComponent as WSLogo } from "../../assets/crown.svg";
 
 import { useState, useEffect } from "react";
 import ToggleButton from "../../components/toggle-button/toggle-button.component";
+<<<<<<< Updated upstream
 import { UserContext } from "../../contexts/user.context";
 import { signOutUser } from "../../utility/firebase/firebase.utils";
 
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 import { CartContext } from "../../contexts/cart.context";
+=======
+// import { UserContext } from "../../contexts/__user.context";
+// import { signOutUser } from "../../utility/firebase/firebase.utils";
+
+import CartIcon from "../../components/cart-icon/cart-icon.component";
+import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
+
+import { selectCurrentUser } from "../../store/user/user.selector";
+import { signOutStart } from "../../store/user/user.action";
+import { selectIsCartOpen } from "../../store/cart/cart.selector";
+>>>>>>> Stashed changes
 
 import {
   NavigationContainer,
@@ -19,6 +36,8 @@ import {
 } from "./navigation.styles";
 
 const NavigationBar = () => {
+  const dispatch = useDispatch();
+
   const [language, setLanguage] = useState("ကညီ");
   const [shopLink, setShopLink] = useState("SHOP");
   const [aboutUsLink, setAboutUsLink] = useState("ABOUT US");
@@ -26,6 +45,11 @@ const NavigationBar = () => {
 
   const { currentUser } = useContext(UserContext);
   const { isCartOpen } = useContext(CartContext);
+
+  const onSignOutClicked = () => {
+    console.log("Sign Out Clicked!");
+    dispatch(signOutStart());
+  };
 
   useEffect(() => {
     if (language !== "EN") {
@@ -54,7 +78,7 @@ const NavigationBar = () => {
           <NavLink to="/shop">{shopLink}</NavLink>
           <NavLink to="/about-us">{aboutUsLink}</NavLink>
           {currentUser ? (
-            <NavLink as="span" onClick={signOutUser}>
+            <NavLink as="span" onClick={onSignOutClicked}>
               SIGN OUT
             </NavLink>
           ) : (

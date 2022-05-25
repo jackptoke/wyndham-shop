@@ -1,9 +1,21 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< Updated upstream
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utility/firebase/firebase.utils";
+=======
+import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
+// import { setCurrentUser } from "../../store/user/user.action";
+
+import { signUpStart } from "../../store/user/user.action";
+
+import /*createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth,*/
+"../../utility/firebase/firebase.utils";
+>>>>>>> Stashed changes
 
 import FormInput from "../form-input/form-input.component";
 
@@ -21,6 +33,8 @@ const defaultFormFields = {
 };
 
 const SignUpForm = () => {
+  const dispatch = useDispatch();
+
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, cPassword } = formFields;
   const navigate = useNavigate();
@@ -43,19 +57,24 @@ const SignUpForm = () => {
       return;
     } else {
       try {
-        const { user } = await createAuthUserWithEmailAndPassword(
-          email,
-          password
-        );
+        dispatch(signUpStart(email, password, displayName));
+        // const { user } = await createAuthUserWithEmailAndPassword(
+        //   email,
+        //   password
+        // );
 
-        user.displayName = displayName;
-        await createUserDocumentFromAuth(user, {
-          displayName,
-        });
+        // user.displayName = displayName;
+        // await createUserDocumentFromAuth(user, {
+        //   displayName,
+        // });
 
+<<<<<<< Updated upstream
         setCurrentUser(user);
         user.accessToken && navigate("/");
 
+=======
+        // dispatch(setCurrentUser(user));
+>>>>>>> Stashed changes
         resetFormFields();
       } catch (err) {
         if (err.code === "auth/email-already-in-use") {

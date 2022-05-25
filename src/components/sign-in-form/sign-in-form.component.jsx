@@ -1,13 +1,13 @@
 import { /*useContext, */ useState } from "react";
+import { useDispatch } from "react-redux";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
-// import { UserContext } from "../../contexts/user.context";
-import { useNavigate } from "react-router-dom";
 
 import FormInput from "../form-input/form-input.component";
+
 import {
-  signInWithUsersEmailAndPassword,
-  signInWithGooglePopup,
-} from "../../utility/firebase/firebase.utils";
+  emailSignInStart,
+  googleSignInStart,
+} from "../../store/user/user.action";
 
 import {
   SignInContainer,
@@ -21,9 +21,10 @@ const defaultSignInFormFields = {
 };
 
 const SignInForm = () => {
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultSignInFormFields);
   const { email, password } = formFields;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const { setCurrentUser } = useContext(UserContext);
 
   const handleChange = (event) => {
@@ -32,18 +33,21 @@ const SignInForm = () => {
     setFormFields({ ...formFields, [name]: value });
   };
 
-  const resetFormFields = () => {
-    setFormFields(defaultSignInFormFields);
-  };
+  // const resetFormFields = () => {
+  //   setFormFields(defaultSignInFormFields);
+  // };
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-
-    user.accessToken && navigate("/");
+    // const { user } = await signInWithGooglePopup();
+    dispatch(googleSignInStart());
+    // user.accessToken && navigate("/");
   };
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    console.log("Sign in clicked...");
+    dispatch(emailSignInStart(email, password));
+    /*
     try {
       const { user } = await signInWithUsersEmailAndPassword(email, password);
       // setCurrentUser(user);
@@ -61,7 +65,7 @@ const SignInForm = () => {
         default:
           console.log("Error signing in.  ", err);
       }
-    }
+    }*/
   };
 
   return (
