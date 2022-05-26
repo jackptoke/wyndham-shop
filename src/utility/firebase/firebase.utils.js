@@ -78,39 +78,36 @@ export const getCategoriesAndDocuments = async (collectionName) => {
   const querySnapshot = await getDocs(q);
 
   return querySnapshot.docs.map((docSnapShot) => docSnapShot.data());
-  // const categoryMap = querySnapshot.docs
-  // .reduce((acc, docSnapshot) => {
-  //   const { title, items } = docSnapshot.data();
-  //   acc[title.toLowerCase()] = items;
-  //   return acc;
-  // }, {});
-
-  // return categoryMap;
 };
 
-export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
+export const createUserDocumentFromAuth = async (
+  userAuth,
+  additionalInfo = {}
+) => {
   if (!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid);
-  console.log(userDocRef);
+  // console.log(userDocRef);
   const userSnapshot = await getDoc(userDocRef);
-  console.log(userSnapshot);
-
+  // console.log(userSnapshot);
+  console.log("CreatUserDocFromAuth: ", userAuth, additionalInfo);
   //if user doesn't exists
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
+
+    console.log("Create new user :>:> ", email);
     const createdAt = new Date();
     try {
       await setDoc(userDocRef, {
-        displayName,
         email,
         createdAt,
+        displayName,
         ...additionalInfo,
       });
     } catch (err) {
       console.log("error creating user ", err.message);
     }
-    return userDocRef;
   }
+  return userSnapshot;
   //if user exists
 };
 
@@ -128,3 +125,16 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
+};

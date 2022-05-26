@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 // import { useDispatch } from "react-redux";
 // import { setCurrentUser } from "../../store/user/user.action";
 
-import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from "../../utility/firebase/firebase.utils";
+// import {
+//   createAuthUserWithEmailAndPassword,
+//   createUserDocumentFromAuth,
+// } from "../../utility/firebase/firebase.utils";
+
+import { signUpStart } from "../../store/user/user.action";
 
 import FormInput from "../form-input/form-input.component";
 
@@ -24,9 +26,10 @@ const defaultFormFields = {
 };
 
 const SignUpForm = () => {
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, cPassword } = formFields;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const { setCurrentUser } = useContext(UserContext);
 
   const handleChange = (event) => {
@@ -46,18 +49,7 @@ const SignUpForm = () => {
       return;
     } else {
       try {
-        const { user } = await createAuthUserWithEmailAndPassword(
-          email,
-          password
-        );
-
-        user.displayName = displayName;
-        await createUserDocumentFromAuth(user, {
-          displayName,
-        });
-
-        // dispatch(setCurrentUser(user));
-        user.accessToken && navigate("/");
+        dispatch(signUpStart(email, password, displayName));
 
         resetFormFields();
       } catch (err) {

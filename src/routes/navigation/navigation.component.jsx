@@ -1,13 +1,13 @@
 import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { ReactComponent as WSLogo } from "../../assets/crown.svg";
 
 import { useState, useEffect } from "react";
 import ToggleButton from "../../components/toggle-button/toggle-button.component";
-// import { UserContext } from "../../contexts/__user.context";
-import { signOutUser } from "../../utility/firebase/firebase.utils";
+
+import { signOutStart } from "../../store/user/user.action";
 
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
@@ -24,6 +24,7 @@ import {
 } from "./navigation.styles";
 
 const NavigationBar = () => {
+  const dispatch = useDispatch();
   const [language, setLanguage] = useState("ကညီ");
   const [shopLink, setShopLink] = useState("SHOP");
   const [aboutUsLink, setAboutUsLink] = useState("ABOUT US");
@@ -51,6 +52,10 @@ const NavigationBar = () => {
     setLanguage(newLang);
   };
 
+  const onSignOutClicked = () => {
+    dispatch(signOutStart());
+  };
+
   return (
     <Fragment>
       <NavigationContainer>
@@ -61,7 +66,7 @@ const NavigationBar = () => {
           <NavLink to="/shop">{shopLink}</NavLink>
           <NavLink to="/about-us">{aboutUsLink}</NavLink>
           {currentUser ? (
-            <NavLink as="span" onClick={signOutUser}>
+            <NavLink as="span" onClick={onSignOutClicked}>
               SIGN OUT
             </NavLink>
           ) : (
